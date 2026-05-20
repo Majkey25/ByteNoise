@@ -31,9 +31,33 @@ function decodeBytes(bytes) {
   return decoder.decode(Uint8Array.from(bytes));
 }
 
-function decode(code) {
-  const compact = code.replace(/\s+/gu, "");
-  const values = Array.from(compact, (char) => {
+function compact(code) {
+  return code.replace(/\s+/gu, "");
+}
+
+function codeBlocks(code) {
+  const blocks = [];
+  let current = [];
+
+  for (const line of code.split(/\r?\n/u)) {
+    if (line.trim()) {
+      current.push(line);
+    } else if (current.length) {
+      blocks.push(compact(current.join("")));
+      current = [];
+    }
+  }
+
+  if (current.length) {
+    blocks.push(compact(current.join("")));
+  }
+
+  return blocks;
+}
+
+function decodeBlock(code) {
+  const compactCode = compact(code);
+  const values = Array.from(compactCode, (char) => {
     const value = char.codePointAt(0) - FIRST;
     if (value < 0 || value >= SIZE) {
       throw new Error(`Invalid ByteNoise character: ${JSON.stringify(char)}`);
@@ -50,6 +74,14 @@ function decode(code) {
       throw maskedError;
     }
   }
+}
+
+function decode(code) {
+  const blocks = codeBlocks(code);
+  if (blocks.length > 1) {
+    return blocks.map(decodeBlock).join("\n\n");
+  }
+  return decodeBlock(code);
 }
 
 function convert() {

@@ -14,9 +14,27 @@ def encode(text: str) -> str:
     )
 
 
-def decode(code: str) -> str:
+def compact(code: str) -> str:
+    return "".join(code.split())
+
+
+def code_blocks(code: str) -> list[str]:
+    blocks: list[str] = []
+    current: list[str] = []
+    for line in code.splitlines():
+        if line.strip():
+            current.append(line)
+        elif current:
+            blocks.append(compact("".join(current)))
+            current = []
+    if current:
+        blocks.append(compact("".join(current)))
+    return blocks
+
+
+def decode_block(code: str) -> str:
     values: list[int] = []
-    for char in "".join(code.split()):
+    for char in compact(code):
         value = ord(char) - FIRST
         if not 0 <= value < SIZE:
             raise ValueError(f"Invalid ByteNoise character: {char!r}")
@@ -29,3 +47,10 @@ def decode(code: str) -> str:
             return bytes(values).decode("utf-8")
         except UnicodeDecodeError:
             raise masked_error from None
+
+
+def decode(code: str) -> str:
+    blocks = code_blocks(code)
+    if len(blocks) > 1:
+        return "\n\n".join(decode_block(block) for block in blocks)
+    return decode_block(code)

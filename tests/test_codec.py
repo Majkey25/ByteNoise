@@ -23,6 +23,10 @@ class CodecTest(unittest.TestCase):
         code = encode("hello")
         self.assertEqual(decode(f"\n\t{code}\n\n"), "hello")
 
+    def test_decode_multiple_pasted_blocks(self) -> None:
+        code = f"{encode('first block')}\n\n{encode('second block')}"
+        self.assertEqual(decode(code), "first block\n\nsecond block")
+
     def test_decode_legacy_direct_offset(self) -> None:
         self.assertTrue(
             decode(f"{LEGACY_DIRECT}\n\n").startswith(
