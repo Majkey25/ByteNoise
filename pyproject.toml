@@ -5,13 +5,26 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "bytenoise"
 version = "0.1.0"
-description = "Tiny reversible text obfuscator with a simple Tkinter UI."
+description = "Tiny reversible text obfuscator for desktop and browser."
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
 authors = [{ name = "ByteNoise contributors" }]
-keywords = ["tkinter", "text", "encoding", "obfuscation"]
+keywords = ["github-pages", "obfuscation", "text", "tkinter"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Win32 (MS Windows)",
+  "Intended Audience :: End Users/Desktop",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: Text Processing",
+]
 dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/Majkey25/ByteNoise"
+"Web App" = "https://majkey25.github.io/ByteNoise/"
+Issues = "https://github.com/Majkey25/ByteNoise/issues"
 
 [project.scripts]
 bytenoise = "bytenoise.app:main"

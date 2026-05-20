@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="ByteNoise is a tiny reversible text obfuscator for desktop and web."
+    />
+    <title>ByteNoise</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="https://github.com/Majkey25/ByteNoise">
+          <span class="mark" aria-hidden="true">BN</span>
+          <span>
+            <strong>ByteNoise</strong>
+            <small>reversible text obfuscator</small>
+          </span>
+        </a>
+        <nav aria-label="Project links">
+          <a href="https://github.com/Majkey25/ByteNoise">GitHub</a>
+          <a href="#about">About</a>
+        </nav>
+      </header>
+
+      <section class="workspace" aria-label="ByteNoise converter">
+        <div class="panel input-panel">
+          <div class="panel-head">
+            <h1>Input</h1>
+            <div class="mode" role="radiogroup" aria-label="Conversion mode">
+              <label>
+                <input checked name="mode" type="radio" value="encode" />
+                <span>Encode</span>
+              </label>
+              <label>
+                <input name="mode" type="radio" value="decode" />
+                <span>Decode</span>
+              </label>
+            </div>
+          </div>
+          <textarea
+            id="input"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="Paste text here"
+          ></textarea>
+          <div class="actions">
+            <label class="file-button">
+              <input id="file" type="file" />
+              Open file
+            </label>
+            <button id="sample" type="button">Sample</button>
+            <button id="clear" type="button">Clear</button>
+          </div>
+        </div>
+
+        <div class="panel output-panel">
+          <div class="panel-head">
+            <h2>Output</h2>
+            <p id="status" role="status">Ready</p>
+          </div>
+          <textarea
+            id="output"
+            readonly
+            spellcheck="false"
+            placeholder="Converted output appears here"
+          ></textarea>
+          <div class="actions">
+            <button id="convert" class="primary" type="button">Convert</button>
+            <button id="swap" type="button">Swap</button>
+            <button id="copy" type="button">Copy</button>
+            <button id="download" type="button">Download</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="notes" aria-label="Project notes">
+        <article>
+          <h2>What it does</h2>
+          <p>
+            ByteNoise turns UTF-8 text into uncommon Unicode characters and can
+            reverse it back. Decoding ignores pasted whitespace and supports the
+            older direct-offset format.
+          </p>
+        </article>
+        <article>
+          <h2>What it is not</h2>
+          <p>
+            This is obfuscation, not cryptography. Do not use it for passwords,
+            tokens, keys, private messages, or regulated data.
+          </p>
+        </article>
+      </section>
+    </main>
+
+    <script src="assets/app.js"></script>
+  </body>
+</html>
