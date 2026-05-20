@@ -2,19 +2,35 @@ name: CI
 
 on:
   push:
+    branches: ["main"]
   pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
-  check:
-    runs-on: windows-latest
+  python:
+    name: Python ${{ matrix.python-version }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.11", "3.12", "3.13"]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
         with:
-          python-version: "3.11"
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install project and tools
+        run: python -m pip install --upgrade pip ruff
+      - name: Install package
+        run: python -m pip install -e .
       - name: Compile
         run: python -m compileall -q ByteNoise.pyw src/bytenoise
       - name: Lint
-        run: |
-          python -m pip install ruff
-          ruff check .
+        run: ruff check .
+      - name: Unit tests
+        run: python -m unittest discover -s tests -v

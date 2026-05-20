@@ -100,6 +100,9 @@ Recommended repository metadata:
 python -m compileall -q ByteNoise.pyw src/bytenoise
 python -m pip install ruff
 ruff check .
+python -m unittest discover -s tests -v
+python -m pip install build
+python -m build
 ```
 
 Check the static web app locally:
