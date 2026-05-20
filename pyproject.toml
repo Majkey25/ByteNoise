@@ -27,7 +27,7 @@ Homepage = "https://github.com/Majkey25/ByteNoise"
 Issues = "https://github.com/Majkey25/ByteNoise/issues"
 
 [project.scripts]
-bytenoise = "bytenoise.app:main"
+bytenoise = "bytenoise.__main__:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

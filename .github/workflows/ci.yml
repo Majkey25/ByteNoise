@@ -28,6 +28,8 @@ jobs:
         run: python -m pip install --upgrade pip ruff
       - name: Install package
         run: python -m pip install -e .
+      - name: Application smoke run
+        run: python -m bytenoise --self-test
       - name: Compile
         run: python -m compileall -q ByteNoise.pyw src/bytenoise
       - name: Lint
