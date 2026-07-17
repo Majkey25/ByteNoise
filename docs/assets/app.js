@@ -4,6 +4,8 @@ const SIZE = 256;
 const input = document.querySelector("#input");
 const output = document.querySelector("#output");
 const status = document.querySelector("#status");
+const inputLabel = document.querySelector("#input-label");
+const outputLabel = document.querySelector("#output-label");
 
 const encoder = new TextEncoder();
 const decoder = new TextDecoder("utf-8", { fatal: true });
@@ -19,6 +21,12 @@ function mode() {
 function setStatus(text, failed = false) {
   status.textContent = text;
   status.dataset.failed = String(failed);
+}
+
+function updateLabels() {
+  const encoding = mode() === "encode";
+  inputLabel.textContent = encoding ? "Plain text" : "ByteNoise";
+  outputLabel.textContent = encoding ? "ByteNoise" : "Plain text";
 }
 
 function encode(text) {
@@ -126,6 +134,7 @@ function swapText() {
 function loadSample() {
   input.value = "Příliš žluťoučký kůň\nByteNoise demo 🙂";
   document.querySelector("input[value='encode']").checked = true;
+  updateLabels();
   convert();
 }
 
@@ -146,6 +155,13 @@ document.querySelector("#file").addEventListener("change", async (event) => {
   }
   input.value = await file.text();
   setStatus("File loaded");
+});
+document.querySelectorAll("input[name='mode']").forEach((control) => {
+  control.addEventListener("change", () => {
+    output.value = "";
+    updateLabels();
+    setStatus("Ready");
+  });
 });
 
 input.addEventListener("keydown", (event) => {

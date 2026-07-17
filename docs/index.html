@@ -15,11 +15,8 @@
     <main class="shell">
       <header class="topbar">
         <a class="brand" href="https://github.com/Majkey25/ByteNoise">
-          <span class="mark" aria-hidden="true">BN</span>
-          <span>
-            <strong>ByteNoise</strong>
-            <small>reversible text obfuscator</small>
-          </span>
+          <span class="brand-name">ByteNoise</span>
+          <span class="brand-description">Reversible text obfuscator</span>
         </a>
         <nav aria-label="Project links">
           <a href="https://github.com/Majkey25/ByteNoise">GitHub</a>
@@ -27,10 +24,11 @@
         </nav>
       </header>
 
+      <h1 class="visually-hidden">ByteNoise text converter</h1>
       <section class="workspace" aria-label="ByteNoise converter">
-        <div class="panel input-panel">
-          <div class="panel-head">
-            <h1>Input</h1>
+        <section class="editor-pane input-pane" aria-labelledby="input-label">
+          <div class="pane-head">
+            <h2 id="input-label">Plain text</h2>
             <div class="mode" role="radiogroup" aria-label="Conversion mode">
               <label>
                 <input checked name="mode" type="radio" value="encode" />
@@ -44,57 +42,85 @@
           </div>
           <textarea
             id="input"
+            aria-labelledby="input-label"
             autocomplete="off"
             spellcheck="false"
-            placeholder="Paste text here"
+            placeholder="Type or paste text"
           ></textarea>
           <div class="actions">
-            <label class="file-button">
-              <input id="file" type="file" />
-              Open file
+            <label class="button file-button">
+              <input id="file" type="file" aria-label="Open file" />
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M3 6.5h6l2 2h10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+              </svg>
+              <span aria-hidden="true">Open file</span>
             </label>
-            <button id="sample" type="button">Sample</button>
-            <button id="clear" type="button">Clear</button>
+            <button id="sample" type="button">
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M7 3h8l4 4v14H7zM15 3v5h4M10 13h6M10 17h6" />
+              </svg>
+              Sample
+            </button>
+            <button id="clear" type="button">
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M4 7h16M9 7V4h6v3M7 7l1 14h8l1-14M10 11v6M14 11v6" />
+              </svg>
+              Clear
+            </button>
           </div>
-        </div>
+        </section>
 
-        <div class="panel output-panel">
-          <div class="panel-head">
-            <h2>Output</h2>
+        <section class="editor-pane output-pane" aria-labelledby="output-label">
+          <div class="pane-head">
+            <h2 id="output-label">ByteNoise</h2>
             <p id="status" role="status">Ready</p>
           </div>
           <textarea
             id="output"
+            aria-labelledby="output-label"
             readonly
             spellcheck="false"
             placeholder="Converted output appears here"
           ></textarea>
           <div class="actions">
-            <button id="convert" class="primary" type="button">Convert</button>
-            <button id="swap" type="button">Swap</button>
-            <button id="copy" type="button">Copy</button>
-            <button id="download" type="button">Download</button>
+            <button id="convert" class="primary" type="button">
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M4 7h13M14 4l3 3-3 3M20 17H7M10 14l-3 3 3 3" />
+              </svg>
+              Convert
+            </button>
+            <button id="swap" type="button">
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M4 7h13M14 4l3 3-3 3M20 17H7M10 14l-3 3 3 3" />
+              </svg>
+              Swap
+            </button>
+            <button id="copy" type="button">
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <rect x="8" y="8" width="11" height="12" rx="1" />
+                <path d="M16 8V4H5v12h3" />
+              </svg>
+              Copy
+            </button>
+            <button id="download" type="button">
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M12 3v12M8 11l4 4 4-4M4 19v2h16v-2" />
+              </svg>
+              Download
+            </button>
           </div>
-        </div>
+        </section>
       </section>
 
-      <section id="about" class="notes" aria-label="Project notes">
-        <article>
-          <h2>What it does</h2>
-          <p>
-            ByteNoise turns UTF-8 text into uncommon Unicode characters and can
-            reverse it back. Decoding ignores pasted whitespace and supports the
-            older direct-offset format.
-          </p>
-        </article>
-        <article>
-          <h2>What it is not</h2>
-          <p>
-            This is obfuscation, not cryptography. Do not use it for passwords,
-            tokens, keys, private messages, or regulated data.
-          </p>
-        </article>
-      </section>
+      <aside id="about" class="notice" aria-label="Security note">
+        <svg aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M12 3 5 6v5c0 4.7 2.9 8.1 7 10 4.1-1.9 7-5.3 7-10V6zM9.5 12l1.7 1.7 3.6-4" />
+        </svg>
+        <p>
+          <strong>Obfuscation, not encryption.</strong>
+          Never use ByteNoise for passwords, keys, or private data.
+        </p>
+      </aside>
     </main>
 
     <script src="assets/app.js"></script>
