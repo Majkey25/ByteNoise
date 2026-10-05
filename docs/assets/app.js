@@ -27,6 +27,8 @@ function updateLabels() {
   const encoding = mode() === "encode";
   inputLabel.textContent = encoding ? "Plain text" : "ByteNoise";
   outputLabel.textContent = encoding ? "ByteNoise" : "Plain text";
+  input.wrap = encoding ? "soft" : "off";
+  output.wrap = encoding ? "off" : "soft";
 }
 
 function encode(text) {
@@ -169,3 +171,5 @@ input.addEventListener("keydown", (event) => {
     convert();
   }
 });
+
+updateLabels();
