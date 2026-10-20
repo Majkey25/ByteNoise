@@ -8,7 +8,7 @@ const inputLabel = document.querySelector("#input-label");
 const outputLabel = document.querySelector("#output-label");
 
 const encoder = new TextEncoder();
-const decoder = new TextDecoder("utf-8", { fatal: true });
+const decoder = new TextDecoder("utf-8", { fatal: true, ignoreBOM: true });
 
 function mask(index) {
   return (73 * index + 41) % SIZE;
