@@ -36,3 +36,6 @@ jobs:
         run: ruff check .
       - name: Unit tests
         run: python -m unittest discover -s tests -v
+      - name: Web unit tests
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
+        run: node --test tests/test_web.mjs

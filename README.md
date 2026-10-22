@@ -55,6 +55,10 @@ python -m bytenoise
 - Save or copy converted output.
 - No third-party runtime dependencies.
 
+Both apps encode up to 1 MiB of UTF-8 text and decode up to 1,048,576 input
+characters, including whitespace. Files are limited to 2 MiB so saved ByteNoise
+output can be opened again. Oversized or unreadable files leave existing input intact.
+
 ## How It Works
 
 ByteNoise encodes text as UTF-8 bytes, XORs each byte with a deterministic mask,
@@ -101,8 +105,9 @@ python -m compileall -q ByteNoise.pyw src/bytenoise
 python -m pip install ruff
 ruff check .
 python -m unittest discover -s tests -v
-python -m pip install build
-python -m build
+node --test tests/test_web.mjs
+python -m pip install --require-hashes --only-binary=:all: -r requirements-build.txt
+python -m build --no-isolation
 ```
 
 Check the static web app locally:

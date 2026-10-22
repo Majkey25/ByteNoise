@@ -1,5 +1,8 @@
 const FIRST = 0x0100;
 const SIZE = 256;
+const MAX_INPUT_CHARS = 1024 * 1024;
+const MAX_TEXT_BYTES = MAX_INPUT_CHARS;
+const MAX_FILE_BYTES = 2 * MAX_INPUT_CHARS;
 
 const input = document.querySelector("#input");
 const output = document.querySelector("#output");
@@ -31,8 +34,19 @@ function updateLabels() {
   output.wrap = encoding ? "off" : "soft";
 }
 
+function checkInput(text) {
+  if (text.length > MAX_INPUT_CHARS) {
+    throw new Error("Input exceeds 1,048,576 characters.");
+  }
+}
+
 function encode(text) {
-  return Array.from(encoder.encode(text), (byte, index) =>
+  checkInput(text);
+  const bytes = encoder.encode(text);
+  if (bytes.length > MAX_TEXT_BYTES) {
+    throw new Error("Text exceeds 1 MiB of UTF-8 data.");
+  }
+  return Array.from(bytes, (byte, index) =>
     String.fromCharCode(FIRST + (byte ^ mask(index))),
   ).join("");
 }
@@ -42,10 +56,12 @@ function decodeBytes(bytes) {
 }
 
 function compact(code) {
+  checkInput(code);
   return code.replace(/\s+/gu, "");
 }
 
 function codeBlocks(code) {
+  checkInput(code);
   const blocks = [];
   let current = [];
 
@@ -155,8 +171,17 @@ document.querySelector("#file").addEventListener("change", async (event) => {
   if (!file) {
     return;
   }
-  input.value = await file.text();
-  setStatus("File loaded");
+  try {
+    if (file.size > MAX_FILE_BYTES) {
+      throw new Error("File exceeds 2 MiB.");
+    }
+    const text = await file.text();
+    checkInput(text);
+    input.value = text;
+    setStatus("File loaded");
+  } catch (error) {
+    setStatus(error.message, true);
+  }
 });
 document.querySelectorAll("input[name='mode']").forEach((control) => {
   control.addEventListener("change", () => {

@@ -4,7 +4,17 @@ import tkinter as tk
 from pathlib import Path
 from tkinter import filedialog, messagebox
 
-from bytenoise.codec import decode, encode
+from bytenoise.codec import MAX_FILE_BYTES, MAX_INPUT_CHARS, check_input, decode, encode
+
+
+def read_input_file(path: Path) -> str:
+    with path.open("rb") as stream:
+        data = stream.read(MAX_FILE_BYTES + 1)
+    if len(data) > MAX_FILE_BYTES:
+        raise ValueError("File exceeds 2 MiB.")
+    text = data.decode("utf-8").replace("\r\n", "\n").replace("\r", "\n")
+    check_input(text)
+    return text
 
 
 def main() -> None:
@@ -17,6 +27,8 @@ def main() -> None:
     result = tk.Text(root, height=11, wrap="word")
 
     def source_text() -> str:
+        if source.compare("end-1c", ">", f"1.0 + {MAX_INPUT_CHARS} chars"):
+            raise ValueError("Input exceeds 1,048,576 characters.")
         return source.get("1.0", "end-1c")
 
     def result_text() -> str:
@@ -37,9 +49,10 @@ def main() -> None:
         path = filedialog.askopenfilename(title="Open text file")
         if path:
             try:
+                text = read_input_file(Path(path))
                 source.delete("1.0", "end")
-                source.insert("1.0", Path(path).read_text(encoding="utf-8"))
-            except (OSError, UnicodeError) as exc:
+                source.insert("1.0", text)
+            except (OSError, ValueError) as exc:
                 messagebox.showerror("Read error", str(exc))
 
     def save_file() -> None:
