@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools>=69"]
+requires = ["setuptools==84.2.1"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "bytenoise"
-version = "0.1.0"
+version = "0.1.1"
 description = "Tiny reversible text obfuscator for desktop and browser."
 readme = "README.md"
 requires-python = ">=3.11"

@@ -2,6 +2,14 @@ from __future__ import annotations
 
 FIRST = 0x0100
 SIZE = 256
+MAX_INPUT_CHARS = 1024 * 1024
+MAX_TEXT_BYTES = MAX_INPUT_CHARS
+MAX_FILE_BYTES = 2 * MAX_INPUT_CHARS
+
+
+def check_input(text: str) -> None:
+    if len(text) > MAX_INPUT_CHARS:
+        raise ValueError("Input exceeds 1,048,576 characters.")
 
 
 def mask(index: int) -> int:
@@ -9,16 +17,22 @@ def mask(index: int) -> int:
 
 
 def encode(text: str) -> str:
+    check_input(text)
+    data = text.encode("utf-8")
+    if len(data) > MAX_TEXT_BYTES:
+        raise ValueError("Text exceeds 1 MiB of UTF-8 data.")
     return "".join(
-        chr(FIRST + (byte ^ mask(i))) for i, byte in enumerate(text.encode("utf-8"))
+        chr(FIRST + (byte ^ mask(i))) for i, byte in enumerate(data)
     )
 
 
 def compact(code: str) -> str:
+    check_input(code)
     return "".join(code.split())
 
 
 def code_blocks(code: str) -> list[str]:
+    check_input(code)
     blocks: list[str] = []
     current: list[str] = []
     for line in code.splitlines():
